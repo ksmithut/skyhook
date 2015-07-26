@@ -1,0 +1,10 @@
+{
+  "excludeFiles": [
+    "node_modules/**",
+    "coverage/**"
+  ],
+  "exnext": true,
+  "verbose": true,
+  "disallowAnonymousFunctions": false,
+  "disallowCapitalizedComments": false
+}
