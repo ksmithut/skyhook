@@ -20,7 +20,7 @@ function Hooks(options) {
   if (!(this instanceof Hooks)) { return new Hooks(options); }
 
   options = assign({
-    Promise: bluebird,
+    Promise: bluebird
   }, options);
 
   /**
@@ -47,14 +47,14 @@ Hooks.prototype = {
   register: function register(name, method, options) {
     options = assign({
       weight: 0,
-      once: false,
+      once: false
     }, options);
 
     this[_registry][name] = this[_registry][name] || [];
     this[_registry][name].push({
       once: options.once,
       weight: options.weight,
-      method: method,
+      method: method
     });
 
     return this;
