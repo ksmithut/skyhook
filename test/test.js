@@ -99,7 +99,7 @@ describe('Hooks', function () {
       called = called && true;
       return val += '123';
     });
-    return hooks.trigger('test', '', {returnChange: false})
+    return hooks.triggerMultiple(['test'], '', {returnChange: false})
       .then(function (val) {
         expect(val).to.be.equal('');
         expect(called).to.be.equal(true);
