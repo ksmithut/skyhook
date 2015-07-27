@@ -97,6 +97,12 @@ other hooks, this is where you would put it. Note that it only accepts 1
 parameter. This is to simplify your hooks. If you wish to expose more than one
 parameter to be changed, just create another hook.
 
+The third parameter is an options object. It's only option is `returnChange`
+whose default value is `true`. When set to `false`, it will not accept values
+returned from a hook to modify the value. Note that if a parameter is passed
+by reference (such as an array or an object), then a hook can still modify
+properties on the passed object.
+
 This method returns a promise with resolves to the modified (or un-modified)
 value that you passed (or didn't pass).
 

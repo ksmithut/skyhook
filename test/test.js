@@ -84,6 +84,28 @@ describe('Hooks', function () {
       });
   });
 
+  it('should not modify arguments by returning a value', function () {
+    var hooks = new Hooks();
+    var called = false;
+    hooks.register('test', function (val) {
+      called = true;
+      return val += 'abc';
+    });
+    hooks.register('test', function (val) {
+      expect(val).to.be.equal('');
+    });
+    hooks.register('test', function (val) {
+      expect(val).to.be.equal('');
+      called = called && true;
+      return val += '123';
+    });
+    return hooks.trigger('test', '', {returnChange: false})
+      .then(function (val) {
+        expect(val).to.be.equal('');
+        expect(called).to.be.equal(true);
+      });
+  });
+
   it('should be able to modify arguments by returning a value', function () {
     var hooks = new Hooks();
     var called = false;

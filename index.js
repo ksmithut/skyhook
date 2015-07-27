@@ -67,10 +67,17 @@ Hooks.prototype = {
    * @param {Mixed} [param] - The parameter to pass along to all of the hooked
    * methods. Each hooked method can change the object by changing properties on
    * the parameter directly or returning a new object.
+   * @param {Object} [options]
+   * @param {Boolean} [options.returnChange=true] - If set to false, it will not
+   * accept return values as changes. Really only useful if the param is passed
+   * by value
    * @returns {Promise} Resolves to the parameter value after it has been
    * modified
    */
-  trigger: function trigger(name, param) {
+  trigger: function trigger(name, param, options) {
+    options = assign({
+      returnChange: true
+    }, options);
     return (this[_registry][name] || [])
       .sort(function (a, b) { return a.weight - b.weight; })
       .reduce(function (promise, hook, i, hooks) {
@@ -78,7 +85,9 @@ Hooks.prototype = {
           .then(hook.method)
           .then(function (returnVal) {
             if (hook.once) { hooks.splice(i, 1); }
-            param = (typeof returnVal === 'undefined') ? param : returnVal;
+            if (options.returnChange) {
+              param = (typeof returnVal === 'undefined') ? param : returnVal;
+            }
             return param;
           });
       }, this.Promise.resolve(param));
@@ -93,11 +102,11 @@ Hooks.prototype = {
    * @returns {Promise} Resolves to the paramter value after it has been
    * modified by all of the given hooks.
    */
-  triggerMultiple: function triggerMultiple(hookNames, param) {
+  triggerMultiple: function triggerMultiple(hookNames, param, options) {
     var trigger = this.trigger.bind(this);
     return hookNames.reduce(function (promise, hookName) {
       return promise.then(function (returnVal) {
-        return trigger(hookName, returnVal);
+        return trigger(hookName, returnVal, options);
       });
     }, this.Promise.resolve(param));
   },
