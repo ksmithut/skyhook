@@ -56,6 +56,8 @@ Hooks.prototype = {
       weight: options.weight,
       method: method,
     });
+
+    return this;
   },
 
   /**

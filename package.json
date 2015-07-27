@@ -1,7 +1,7 @@
 {
   "name": "skyhook",
-  "version": "0.0.0",
-  "description": "A pub sub hub hook-based system for node",
+  "version": "1.0.0",
+  "description": "A promise-based pub sub hub hook system for node",
   "main": "index.js",
   "scripts": {
     "test": "istanbul cover _mocha",
